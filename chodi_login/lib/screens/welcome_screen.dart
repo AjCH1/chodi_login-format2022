@@ -1,12 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_chodi_app/screens/home_screen.dart';
 import 'package:flutter_chodi_app/screens/user/user_initialize_screen.dart';
 import 'package:flutter_chodi_app/services/shared_preferences_service.dart';
 import 'package:flutter_chodi_app/widget/chodi_text.dart';
 
 import '../configs/app_theme.dart';
-import 'home_screen.dart';
 
 class WelcomeScreen extends StatefulWidget {
   const WelcomeScreen({Key? key}) : super(key: key);
@@ -40,8 +40,7 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 {
                   Navigator.pushAndRemoveUntil(
                       context,
-                      MaterialPageRoute(
-                          builder: (context) => const HomeScreen()),
+                      MaterialPageRoute(builder: (context) => HomeScreen()),
                       (route) => false)
                 }
             });
