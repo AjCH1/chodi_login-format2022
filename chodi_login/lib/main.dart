@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_chodi_app/screens/home_screen.dart';
+import 'package:flutter_chodi_app/screens/impact/impact_screen.dart';
 import 'package:flutter_chodi_app/screens/welcome_screen.dart';
-import 'package:flutter_chodi_app/services/firebase_service.dart';
+import 'package:flutter_chodi_app/services/firebase_authentication_service.dart';
 import 'package:flutter_chodi_app/viewmodel/main_view_model.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
@@ -36,7 +38,9 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
-          home: const WelcomeScreen(),
+          home: WelcomeScreen(),
         ),
       );
 }
+
+//const WelcomeScreen()

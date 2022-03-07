@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_chodi_app/configs/app_theme.dart';
 import 'package:flutter_chodi_app/models/user.dart';
-import 'package:flutter_chodi_app/services/firebase_service.dart';
+import 'package:flutter_chodi_app/services/firebase_authentication_service.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 
@@ -15,7 +15,7 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  String? ageValue;
+  var ageValue;
   List<String> ageList = _createAgeList();
 
   bool _checkboxValue = false;
@@ -173,13 +173,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             isExpanded: true,
                             hint: const Text("Enter your age"),
                             dropdownColor: Colors.white,
-                            underline: SizedBox(),
+                            underline: const SizedBox(),
                             icon: const Icon(Icons.arrow_drop_down),
                             items: ageList.map(buildMenuItem).toList(),
                             value: ageValue,
                             onChanged: (newValue) {
                               setState(() {
-                                ageValue = newValue;
+                                ageValue = newValue!;
                               });
                             })),
                     const Padding(
@@ -389,17 +389,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       _showToast("Please agree to the Terms and Privacy");
                     } else {
                       User user = User(
-                          email: emailController.text,
-                          userName: userNameController.text,
-                          age: ageValue,
-                          securityQuestionAnswer:
-                              securityQuestionAnswerController.text,
-                          securityQuestion: securityQuestionController.text,
-                          password: passwordController.text);
+                        email: emailController.text,
+                        username: userNameController.text,
+                        age: ageValue,
+                        securityQuestionAnswer:
+                            securityQuestionAnswerController.text,
+                        securityQuestion: securityQuestionController.text,
+                      );
 
                       final provider =
                           Provider.of<FirebaseService>(context, listen: false);
-                      provider.userSignUp(user, context);
+                      provider.userSignUp(
+                          user, passwordController.text, context);
                     }
                   },
                 ),

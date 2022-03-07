@@ -3,7 +3,9 @@ import 'package:flutter_chodi_app/models/activity.dart';
 import 'package:flutter_chodi_app/screens/impact/organization_screen.dart';
 import 'package:flutter_chodi_app/screens/impact/performance/performance_screen.dart';
 import 'package:flutter_chodi_app/screens/impact/recent_activity_screen.dart';
+import 'package:flutter_chodi_app/services/google_authentication_service/log_out_button.dart';
 import 'package:flutter_chodi_app/viewmodel/main_view_model.dart';
+import 'package:flutter_chodi_app/widget/profile_avatar.dart';
 import 'package:flutter_chodi_app/widget/recent_activity_widget.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
@@ -83,7 +85,8 @@ class _ImpactScreenState extends State<ImpactScreen>
               ),
               const Padding(
                 padding: EdgeInsets.only(bottom: 10),
-                child: Text("Volunteer hours donated"),
+                child:
+                    const logOutWidget(), //log out function logs people from google and firebase //Text("Volunteer hours donated"),
               ),
               // '\$${h}',
               Padding(
@@ -110,37 +113,17 @@ class _ImpactScreenState extends State<ImpactScreen>
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    ClipOval(
-                      child: Image.asset(
-                        'assets/images/img.png',
-                        height: 45,
-                        width: 45,
-                        fit: BoxFit.fill,
-                      ),
+                    ProfileAvatar(
+                      assetURL: "assets/images/img_1.png",
                     ),
-                    ClipOval(
-                      child: Image.asset(
-                        'assets/images/img.png',
-                        height: 45,
-                        width: 45,
-                        fit: BoxFit.fill,
-                      ),
+                    ProfileAvatar(
+                      assetURL: "assets/images/img_2.png",
                     ),
-                    ClipOval(
-                      child: Image.asset(
-                        'assets/images/img.png',
-                        height: 45,
-                        width: 45,
-                        fit: BoxFit.fill,
-                      ),
+                    ProfileAvatar(
+                      assetURL: "assets/images/img_3.png",
                     ),
-                    ClipOval(
-                      child: Image.asset(
-                        'assets/images/img.png',
-                        height: 45,
-                        width: 45,
-                        fit: BoxFit.fill,
-                      ),
+                    ProfileAvatar(
+                      assetURL: "assets/images/img_4.png",
                     ),
                     GestureDetector(
                       onTap: () {
@@ -259,6 +242,5 @@ class _ImpactScreenState extends State<ImpactScreen>
   void dispose() {
     controller.dispose();
     super.dispose();
-
   }
 }

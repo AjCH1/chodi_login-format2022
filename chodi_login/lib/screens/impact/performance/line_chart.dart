@@ -9,8 +9,8 @@ class LineChart extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text("Donated:\$${15}"),
-        Padding(padding: EdgeInsets.only(top: 10), child: Text("Event:6")),
+        Text("Donated: \$${15}"),
+        Padding(padding: EdgeInsets.only(top: 10), child: Text("Event: 6")),
         Padding(
             padding: EdgeInsets.only(top: 20, bottom: 20),
             child: Row(
@@ -64,7 +64,7 @@ class LineChart extends StatelessWidget {
           ],
         )),
         const Padding(
-            padding: EdgeInsets.only(top: 10), child: Text("Donated:7hours")),
+            padding: EdgeInsets.only(top: 10), child: Text("Donated: 7 hours")),
         Padding(
             padding: const EdgeInsets.only(top: 20, bottom: 10),
             child: Row(

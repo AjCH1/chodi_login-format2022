@@ -1,42 +1,15 @@
 class User {
-  int? id;
-  String? email;
-  String? userName;
-  String? age;
-  String? securityQuestion;
-  String? securityQuestionAnswer;
-  String? password;
-
-  Map<String, Object?> toMap() {
-    var map = <String, Object?>{
-      'id': id,
-      'email': email,
-      'userName': userName,
-      'age': age,
-      'securityQuestion': securityQuestion,
-      'securityQuestionAnswer': securityQuestionAnswer,
-      'password': password,
-    };
-    return map;
-  }
+  String email;
+  String username;
+  String age;
+  String securityQuestion;
+  String securityQuestionAnswer;
 
   User({
-    this.id,
     required this.email,
-    required this.userName,
-    this.age,
-    this.securityQuestion,
-    this.securityQuestionAnswer,
-    this.password,
+    required this.username,
+    required this.age,
+    required this.securityQuestion,
+    required this.securityQuestionAnswer,
   });
-
-  User.fromMap(Map<dynamic, dynamic> map) {
-    id = map['id'] as int?;
-    email = map['email'] as String?;
-    userName = map['userName'] as String?;
-    age = map['age'] as String?;
-    securityQuestion = map['securityQuestion'] as String?;
-    securityQuestionAnswer = map['securityQuestionAnswer'] as String?;
-    password = map['password'] as String?;
-  }
 }

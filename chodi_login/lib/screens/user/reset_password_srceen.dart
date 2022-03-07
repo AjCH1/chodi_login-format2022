@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_chodi_app/models/user.dart';
 import 'package:flutter_chodi_app/screens/user/login_screen.dart';
-import 'package:flutter_chodi_app/services/firebase_service.dart';
+import 'package:flutter_chodi_app/services/firebase_authentication_service.dart';
 
 import '../../configs/app_theme.dart';
 import '../../widget/strip_guide_widget.dart';

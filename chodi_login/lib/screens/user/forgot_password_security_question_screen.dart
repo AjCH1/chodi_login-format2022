@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_chodi_app/screens/user/reset_password_srceen.dart';
 //import 'package:flutter_chodi_app/screens/user/reset_password_srceen.dart';
-import 'package:flutter_chodi_app/services/firebase_service.dart';
+import 'package:flutter_chodi_app/services/firebase_authentication_service.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../configs/app_theme.dart';

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_chodi_app/configs/app_theme.dart';
 import 'package:flutter_chodi_app/models/user.dart';
 import 'package:flutter_chodi_app/screens/user/forgot_password_security_question_screen.dart';
-import 'package:flutter_chodi_app/services/firebase_service.dart';
+import 'package:flutter_chodi_app/services/firebase_authentication_service.dart';
 import 'package:flutter_chodi_app/widget/strip_guide_widget.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 

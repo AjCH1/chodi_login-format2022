@@ -4,7 +4,7 @@ import 'package:flutter_chodi_app/configs/app_theme.dart';
 import 'package:flutter_chodi_app/screens/home_screen.dart';
 import 'package:flutter_chodi_app/screens/user/forgot_password_email_screen.dart';
 import 'package:flutter_chodi_app/screens/user/sign_up_screen.dart';
-import 'package:flutter_chodi_app/services/firebase_service.dart';
+import 'package:flutter_chodi_app/services/firebase_authentication_service.dart';
 import 'package:flutter_chodi_app/services/google_authentication_service/google_authentication.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:fluttertoast/fluttertoast.dart';

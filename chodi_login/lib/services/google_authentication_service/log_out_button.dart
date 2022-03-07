@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
-import 'package:flutter_chodi_app/services/firebase_service.dart';
+import 'package:flutter_chodi_app/services/firebase_authentication_service.dart';
 import 'package:provider/provider.dart';
 import 'google_authentication.dart';
 //import 'package:flutter_chodi_app/services/firebase_service.dart';
@@ -31,7 +31,7 @@ class _logOutWidgetState extends State<logOutWidget> {
         alignment: Alignment.bottomCenter,
         child: RichText(
           text: TextSpan(
-              text: 'Log Out',
+              text: 'Hours donated - Log Out: Testing Only',
               style: googleLinkTextStyle,
               recognizer: TapGestureRecognizer()
                 ..onTap = () {

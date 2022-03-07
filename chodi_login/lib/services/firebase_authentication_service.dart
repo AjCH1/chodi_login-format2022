@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -12,15 +10,14 @@ import 'package:flutter_chodi_app/models/user.dart' as ChodiUser;
 class FirebaseService extends ChangeNotifier {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  Future userSignUp(ChodiUser.User user, BuildContext context) async {
-    Map<String, Object?> userMap = user.toMap();
-    String email = userMap["email"].toString();
-    String password = userMap["password"].toString();
-    String username = userMap["userName"].toString();
-    String age = userMap["age"].toString();
-    String securityQuestion = userMap["securityQuestion"].toString();
-    String securityQuestionAnswer =
-        userMap["securityQuestionAnswer"].toString();
+//Sign-up/Login Methods
+  Future userSignUp(
+      ChodiUser.User user, String password, BuildContext context) async {
+    String email = user.email;
+    String username = user.username;
+    String age = user.age;
+    String securityQuestion = user.securityQuestion;
+    String securityQuestionAnswer = user.securityQuestionAnswer;
 
     try {
       await _auth
@@ -43,7 +40,7 @@ class FirebaseService extends ChangeNotifier {
               });
 
       Navigator.of(context).pushReplacement(
-          MaterialPageRoute(builder: (context) => HomeScreen()));
+          MaterialPageRoute(builder: (context) => const HomeScreen()));
     } on Exception {
       _showToast("Email account is already in use");
     }
@@ -59,6 +56,7 @@ class FirebaseService extends ChangeNotifier {
     }
   }
 
+  //log out users out of email/password - does not log out users that sign in with google
   Future userLogOut(BuildContext context) async {
     await _auth.signOut();
     Navigator.of(context).pushReplacement(
@@ -101,6 +99,8 @@ class FirebaseService extends ChangeNotifier {
     }
   }
 
+//User must be logged in to use the this function
+//Does not access the subcollections of the User
   Future<ChodiUser.User?> getDataOfCurrentUser() async {
     if (_auth.currentUser != null) {
       String userId = _auth.currentUser!.uid;
@@ -116,13 +116,16 @@ class FirebaseService extends ChangeNotifier {
               personalInfo['SecurityQuestion'] == null)) {
         final chodiUser = ChodiUser.User(
           email: personalInfo["Email"],
-          userName: personalInfo["Username"],
+          username: personalInfo["Username"],
+          age: '',
+          securityQuestion: '',
+          securityQuestionAnswer: '',
         );
         return chodiUser;
       } else {
         final chodiUser = ChodiUser.User(
           email: personalInfo["Email"],
-          userName: personalInfo["Username"],
+          username: personalInfo["Username"],
           age: personalInfo['Age'],
           securityQuestionAnswer: personalInfo["SecurityQuestionAnswer"],
           securityQuestion: personalInfo["SecurityQuestion"],
@@ -133,7 +136,13 @@ class FirebaseService extends ChangeNotifier {
     return null;
   }
 
-  //When the user is not currently logged in but needs information based on the email
+  Future<String> getUsername() async {
+    ChodiUser.User? user = await getDataOfCurrentUser();
+    String username = user!.username;
+    return username;
+  }
+
+  //User is not currently logged in but needs information based on the email
   Future<ChodiUser.User?> getDataOfUserGivenEmail(String email) async {
     if (await checkIfEmailExistsInFirebase(email)) {
       CollectionReference securityQuestionData =
@@ -152,28 +161,16 @@ class FirebaseService extends ChangeNotifier {
 
           //search login provider: google.com
           for (var pIndex = 0; pIndex < list.length; pIndex++) {
-            //if email is not google-authenticated
+            //if email used is not google-authenticated
             if (list[pIndex] != 'google.com') {
-              try {
-                final chodiUser = ChodiUser.User(
-                  email: allData[i]["Email"],
-                  userName: allData[i]["Username"],
-                  age: allData[i]['Age'],
-                  securityQuestionAnswer: allData[i]["SecurityQuestionAnswer"],
-                  securityQuestion: allData[i]["SecurityQuestion"],
-                );
-                return chodiUser;
-              } on TypeError {
-                //type error with age
-                final chodiUser = ChodiUser.User(
-                  email: allData[i]["Email"],
-                  userName: allData[i]["Username"],
-                  age: allData[i]['Age'],
-                  securityQuestionAnswer: allData[i]["SecurityQuestionAnswer"],
-                  securityQuestion: allData[i]["SecurityQuestion"],
-                );
-                return chodiUser;
-              }
+              final chodiUser = ChodiUser.User(
+                email: allData[i]["Email"],
+                username: allData[i]["Username"],
+                age: allData[i]['Age'],
+                securityQuestionAnswer: allData[i]["SecurityQuestionAnswer"],
+                securityQuestion: allData[i]["SecurityQuestion"],
+              );
+              return chodiUser;
             }
           }
         }
@@ -183,16 +180,14 @@ class FirebaseService extends ChangeNotifier {
     return null;
   }
 
-  //return a map containing the security question and security question answer
-  //When user is not currently logged in
+  //User is not currently logged
+  //Returns a map containing both the security question and security question answer
   Future<Map<String, dynamic>> getSecurityQuestionAndAnswer(
       String email) async {
     if (await getDataOfUserGivenEmail(email) != null) {
       ChodiUser.User? user = await getDataOfUserGivenEmail(email);
-      Map<String, Object?> userMap = user!.toMap();
-      String securityQuestion = userMap["securityQuestion"].toString();
-      String securityQuestionAnswer =
-          userMap["securityQuestionAnswer"].toString();
+      String securityQuestion = user!.securityQuestion;
+      String securityQuestionAnswer = user.securityQuestionAnswer;
       return {
         "securityQuestion": securityQuestion,
         "securityQuestionAnswer": securityQuestionAnswer
@@ -200,13 +195,6 @@ class FirebaseService extends ChangeNotifier {
     }
 
     return {"securityQuestion": null, "securityQuestionAnswer": null};
-  }
-
-  Future<String> getUsername() async {
-    ChodiUser.User? user = await getDataOfCurrentUser();
-    Map<String, Object?> userMap = user!.toMap();
-    String username = userMap["userName"].toString();
-    return username;
   }
 
   _showToast(String msg) {
@@ -218,5 +206,13 @@ class FirebaseService extends ChangeNotifier {
         backgroundColor: const Color(0xFF76D6E1),
         textColor: Colors.white,
         fontSize: 16.0);
+  }
+
+  //FOR TESTING PURPOSES
+  Future<void> getDataGivenDocumentID(String id) async {
+    DocumentSnapshot<Map<String, dynamic>> personalInfo =
+        await FirebaseFirestore.instance.collection('EndUsers').doc(id).get();
+
+    print(personalInfo);
   }
 }
