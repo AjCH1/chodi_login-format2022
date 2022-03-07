@@ -9,18 +9,12 @@ import 'dart:developer'; //for printing
 
 /*
 notes for Google Authentication - February 2022
--follow firebase set-up instructions, enable google in firebase
+-follow firebase set-up instructions, enable google in firebase for android
     -need google-services.json file in /android/app
     -SHA-1 Certificate fingerprints for debug
 -main.dart - initalize firebase app asynchronously
 -on tap (or button press), sign in using _googleSignIn().signIn()
 -update minSdkVersion to at least 19 in /android/app/build.gradle
--dependencies used in pubspec.yaml for google login: 
-  firebase_core: ^1.13.0
-  firebase_auth: ^3.3.8
-  cloud_firestore: ^3.1.10
-  google_sign_in: ^5.2.4
-  provider: ^6.0.2
 AVD Emulator with google play service
 */
 
