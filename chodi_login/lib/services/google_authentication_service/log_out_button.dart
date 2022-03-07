@@ -3,6 +3,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter_chodi_app/services/firebase_authentication_service.dart';
 import 'package:provider/provider.dart';
 import 'google_authentication.dart';
+import '../firebase_authentication_service.dart';
 //import 'package:flutter_chodi_app/services/firebase_service.dart';
 
 //Create a text link to log out of Chodi*/
@@ -35,6 +36,9 @@ class _logOutWidgetState extends State<logOutWidget> {
               style: googleLinkTextStyle,
               recognizer: TapGestureRecognizer()
                 ..onTap = () {
+                  //test
+                  fbservice.getUserRecentHistoryData();
+
                   //if google user
                   final provider1 =
                       Provider.of<GoogleAuthentication>(context, listen: false);

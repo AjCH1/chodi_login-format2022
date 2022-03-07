@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_chodi_app/models/activity.dart';
 import 'package:flutter_chodi_app/screens/home_screen.dart';
 import 'package:flutter_chodi_app/screens/user/login_screen.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -208,11 +209,52 @@ class FirebaseService extends ChangeNotifier {
         fontSize: 16.0);
   }
 
-  //FOR TESTING PURPOSES
-  Future<void> getDataGivenDocumentID(String id) async {
+  //BELOW ARE METHODS FOR TESTING PURPOSES
+  static const exampleID = 'aoeh5HZzZqcqhLn2iugc';
+
+  Future<void> getDataGivenDocumentID() async {
     DocumentSnapshot<Map<String, dynamic>> personalInfo =
-        await FirebaseFirestore.instance.collection('EndUsers').doc(id).get();
+        await FirebaseFirestore.instance
+            .collection('EndUsers')
+            .doc(exampleID)
+            .get();
 
     print(personalInfo);
+  }
+
+  Future<List<User>> getUserRecentHistoryData() async {
+    List<User> allData = [];
+
+    QuerySnapshot history = await FirebaseFirestore.instance
+        .collection("EndUsers")
+        .doc(exampleID)
+        .collection("History")
+        .get();
+    for (var postDoc in history.docs) {
+      //print(postDoc.data()); //displays all data from all Events for the user
+      //print(postDoc.get('action')); //get specfic fields from firebase from all Events
+
+      //allData.add();
+    }
+
+    return allData;
+  }
+
+  Future<List<User>> getUserSupportedOrganizatioinsData() async {
+    List<User> allData = [];
+
+    QuerySnapshot organization = await FirebaseFirestore.instance
+        .collection("EndUsers")
+        .doc(exampleID)
+        .collection("SupportedOrganizations")
+        .get();
+    for (var postDoc in organization.docs) {
+      //print(postDoc.data()); //displays all data from all organizations for the user
+      //print(postDoc.get('organization')); //get specific fields from firebase from all supported organizations
+
+      //allData.add();
+    }
+
+    return allData;
   }
 }
