@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_chodi_app/screens/home_screen.dart';
-import 'package:flutter_chodi_app/screens/impact/impact_screen.dart';
 import 'package:flutter_chodi_app/screens/welcome_screen.dart';
 import 'package:flutter_chodi_app/services/firebase_authentication_service.dart';
 import 'package:flutter_chodi_app/viewmodel/main_view_model.dart';

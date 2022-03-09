@@ -19,12 +19,9 @@ class OrganizationWidget extends StatelessWidget {
       child: Row(
         children: [
           ClipOval(
-            child: Image.asset(
-              img,
-              fit: BoxFit.fill,
-              width: 40,
-              height: 40,
-            ),
+            child: Image.network(img, fit: BoxFit.cover),
+
+            //Image.asset(img,fit: BoxFit.fill,width: 40, height: 40,),
           ),
           Padding(
             padding: const EdgeInsets.only(left: 10),

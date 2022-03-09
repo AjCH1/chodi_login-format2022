@@ -36,9 +36,6 @@ class _logOutWidgetState extends State<logOutWidget> {
               style: googleLinkTextStyle,
               recognizer: TapGestureRecognizer()
                 ..onTap = () {
-                  //test
-                  fbservice.getUserRecentHistoryData();
-
                   //if google user
                   final provider1 =
                       Provider.of<GoogleAuthentication>(context, listen: false);

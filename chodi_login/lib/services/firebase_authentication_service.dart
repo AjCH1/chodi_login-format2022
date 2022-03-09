@@ -222,26 +222,26 @@ class FirebaseService extends ChangeNotifier {
     print(personalInfo);
   }
 
-  Future<List<User>> getUserRecentHistoryData() async {
-    List<User> allData = [];
+  Future<List<dynamic>> getUserRecentHistoryData() async {
+    List<dynamic> allData = [];
 
-    QuerySnapshot history = await FirebaseFirestore.instance
+    QuerySnapshot<dynamic> history = await FirebaseFirestore.instance
         .collection("EndUsers")
         .doc(exampleID)
         .collection("History")
         .get();
     for (var postDoc in history.docs) {
-      //print(postDoc.data()); //displays all data from all Events for the user
-      //print(postDoc.get('action')); //get specfic fields from firebase from all Events
-
-      //allData.add();
+      final data = postDoc.data();
+      allData.add(data);
     }
+
+    print(allData);
 
     return allData;
   }
 
-  Future<List<User>> getUserSupportedOrganizatioinsData() async {
-    List<User> allData = [];
+  Future<List<dynamic>> getUserSupportedOrganizationsData() async {
+    List<dynamic> allData = [];
 
     QuerySnapshot organization = await FirebaseFirestore.instance
         .collection("EndUsers")
@@ -249,11 +249,11 @@ class FirebaseService extends ChangeNotifier {
         .collection("SupportedOrganizations")
         .get();
     for (var postDoc in organization.docs) {
-      //print(postDoc.data()); //displays all data from all organizations for the user
-      //print(postDoc.get('organization')); //get specific fields from firebase from all supported organizations
-
-      //allData.add();
+      final data = postDoc.data();
+      allData.add(data);
     }
+
+    print(allData);
 
     return allData;
   }
