@@ -229,13 +229,12 @@ class FirebaseService extends ChangeNotifier {
         .collection("EndUsers")
         .doc(exampleID)
         .collection("History")
+        .orderBy("date", descending: true) //change field to createdAt?
         .get();
     for (var postDoc in history.docs) {
       final data = postDoc.data();
       allData.add(data);
     }
-
-    print(allData);
 
     return allData;
   }
@@ -252,8 +251,6 @@ class FirebaseService extends ChangeNotifier {
       final data = postDoc.data();
       allData.add(data);
     }
-
-    print(allData);
 
     return allData;
   }

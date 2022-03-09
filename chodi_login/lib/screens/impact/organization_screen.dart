@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_chodi_app/models/firebase_data.dart';
 import 'package:flutter_chodi_app/screens/impact/impact_screen.dart';
 import 'package:flutter_chodi_app/services/firebase_authentication_service.dart';
 import 'package:flutter_chodi_app/services/firebase_storage_service.dart';
@@ -9,40 +10,55 @@ import '../../viewmodel/main_view_model.dart';
 
 FirebaseService fbservice = FirebaseService();
 Storage storage = Storage();
+late Future _dataRequiredForBuild;
 
-class OrganizationScreen extends StatelessWidget {
+class OrganizationScreen extends StatefulWidget {
   const OrganizationScreen({Key? key}) : super(key: key);
+  @override
+  State<OrganizationScreen> createState() => _OrganizationScreen();
+}
 
-  Future<List<dynamic>> getAllSupportedOrganizations() async {
-    var list = [];
+Future<List<dynamic>> _fetchDataForBuild() async {
+  List<dynamic> listURL = [];
 
-    await fbservice
-        .getUserSupportedOrganizationsData()
-        .then((res) => {list = res});
+  await fbservice.getUserSupportedOrganizationsData().then((res) async => {
+        for (var i = 0; i < res.length; i++)
+          {
+            await storage.downloadURL(res[i]['assetURL']).then((res2) => {
+                  listURL.add({
+                    'organization': [res[i]["organizationName"], res2]
+                  })
+                  //"organization" : [World Concern, imageDownloadURL]
+                })
+          }
+      });
+  return listURL;
+}
 
-    return list;
+_createOrganizationWidget([List<dynamic>? data]) {
+  var list = <Widget>[];
+
+  if (data != null) {
+    for (var i = 0; i < data.length; i++) {
+      list.add(OrganizationWidget(
+          img: data[i]['organization'][1], name: data[i]['organization'][0]));
+    }
   }
 
-  Future createOrganizationWidget() async {
-    var list = <Widget>[];
+  return list;
+}
 
-    await getAllSupportedOrganizations().then((res) async => {
-          for (var i = 0; i < res.length; i++)
-            {
-              await storage.downloadURL(res[i]['assetURL']).then((res2) => {
-                    list.add(OrganizationWidget(
-                        img: res2, name: res[i]['organizationName']))
-                  })
-            }
-        });
-
-    return list;
+class _OrganizationScreen extends State<OrganizationScreen> {
+  @override
+  void initState() {
+    super.initState();
+    _dataRequiredForBuild = _fetchDataForBuild();
   }
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-        future: createOrganizationWidget(),
+        future: Future.wait([_dataRequiredForBuild]),
         builder: ((context, AsyncSnapshot<dynamic> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(child: CircularProgressIndicator());
@@ -76,20 +92,11 @@ class OrganizationScreen extends StatelessWidget {
                         style: TextStyle(
                             fontSize: 20, fontWeight: FontWeight.bold),
                       )),
-                  Expanded(
-                      child: MediaQuery.removePadding(
-                          context: context,
-                          removeTop: true,
-                          child: ListView.builder(
-                            itemBuilder: (context, index) {
-                              return Padding(
-                                padding: const EdgeInsets.only(
-                                    top: 12, left: 3, right: 3),
-                                child: snapshot.data[index],
-                              );
-                            },
-                            itemCount: snapshot.data.length,
-                          )))
+                  Padding(
+                    padding: const EdgeInsets.only(top: 16),
+                    child: Column(
+                        children: _createOrganizationWidget(snapshot.data[0])),
+                  ),
                 ],
               ),
             );
