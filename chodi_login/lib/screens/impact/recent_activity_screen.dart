@@ -47,21 +47,12 @@ List<Widget> _createRecentActivityWidget(recentAmount,
           activityResults = recentList[i]['donated'] + ' dollars';
         }
 
-        if (i == 0) {
-          list.add(Padding(
-            padding: const EdgeInsets.all(0),
-            child: RecentActivityWidget(
-                activity: Activity(recentURLList[i][1],
-                    recentList[i]['organizationName'], activityResults, date)),
-          ));
-        } else {
-          list.add(Padding(
-            padding: const EdgeInsets.only(top: 20),
-            child: RecentActivityWidget(
-                activity: Activity(recentURLList[i][1],
-                    recentList[i]['organizationName'], activityResults, date)),
-          ));
-        }
+        list.add(Padding(
+          padding: const EdgeInsets.only(top: 20),
+          child: RecentActivityWidget(
+              activity: Activity(recentURLList[i][1],
+                  recentList[i]['organizationName'], activityResults, date)),
+        ));
       }
     }
   }

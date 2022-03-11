@@ -40,6 +40,9 @@ _createOrganizationWidget([List<dynamic>? data]) {
 
   if (data != null) {
     for (var i = 0; i < data.length; i++) {
+      list.add(Padding(
+        padding: EdgeInsets.only(top: 10),
+      ));
       list.add(OrganizationWidget(
           img: data[i]['organization'][1], name: data[i]['organization'][0]));
     }

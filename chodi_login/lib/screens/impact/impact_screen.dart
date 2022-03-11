@@ -276,11 +276,30 @@ class _ImpactScreenState extends State<ImpactScreen>
                       // '\$${h}',
                       Padding(
                         padding: const EdgeInsets.only(bottom: 10),
-                        child: Text(
-                          "\$${(snapshot.data[0][1] * animation.value).toInt().toString()}",
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Image.asset(
+                              "assets/images/dollar.png",
+                              width: 24,
+                              height: 25,
+                            ),
+                            Text(
+                              (snapshot.data[0][1] * animation.value)
+                                  .toInt()
+                                  .toString(),
+                              style: const TextStyle(
+                                  fontSize: 30, fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+
+                        /*Text(
+                          "${(snapshot.data[0][1] * animation.value).toInt().toString()}",
                           style: const TextStyle(
                               fontSize: 30, fontWeight: FontWeight.bold),
                         ),
+                        */
                       ),
                       const Padding(
                         padding: EdgeInsets.only(bottom: 10),
